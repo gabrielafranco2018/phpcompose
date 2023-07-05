@@ -11,13 +11,42 @@
     <title>Hello, world!</title>
   </head>
   <body>
-    <h1>Hello, world!</h1>
+  
 <?php
+include ('vendor/autoload.php');
 
-echo 'OI';
+$faker = Faker\Factory::create('pt_BR');
+
+$nome = $faker->name();
+
+use GuzzleHttp\Client;
+$client = new \GuzzleHttp\Client();
+$chave = '2dcb285c0725430da9d141505230507';
+$response = $client->request('GET', 'https://api.weatherapi.com/v1/current.json?q=mossoro&key=' . $chave);
+
+$tempo = $response->getBody();
+
+$tempo = json_decode($tempo); 
+
+print_r($tempo);
+
+//$response = $client->request('GET', 'https://g1.com.br');
+//echo $response->getStatusCode(); // 200
+//echo $response->getHeaderLine('content-type'); // 'application/json; charset=utf8'
+//echo $response->getBody();
 
 ?>
-
+<div class="d-flex justify-content-center">
+<div class="card" style="width: 18rem;">
+  <img src="https://robohash.org/<?php echo $nome; ?>.png" class="card-img-top" alt="...">
+  <div class="card-body">
+    <h5 class="card-title"><?php echo $nome; ?></h5>
+    <p class="card-text"><?php echo $faker->email(); ?></p>
+    <a href="#" class="btn-primary">Go somente</a>
+  </div>
+</div>
+<h1><?php echo $nome . '('. $faker->creditCardNumber().')'; ?></h1>
+<img class="col-lg-3" src="https://robohash.org/<?php echo $nome; ?>.png">
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
